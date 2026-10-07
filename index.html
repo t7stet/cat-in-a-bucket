@@ -3,13 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <title>Кот в ведре</title>
+    <style>
+        .cat {
+            transition: transform 0.6s ease-in-out;
+            cursor: pointer;
+            width: 400px;
+        }
+        .flip {
+            transform: rotate(4000deg);
+        }
+        .cooldown {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+    </style>
 </head>
 <body background="background.png" text="lime" bgcolor="black">
+
+    <script>
+        var isCooldown = false;
+
+        function flipCat() {
+            if (isCooldown) return;
+
+            var cat = document.getElementById('cat');
+            var audio = document.getElementById('meow');
+
+
+            isCooldown = true;
+            cat.classList.add('cooldown');
+
+
+            cat.classList.add('flip');
+
+
+            audio.currentTime = 0;
+            audio.play();
+
+
+            setTimeout(function() {
+                cat.classList.remove('flip');
+            }, 600);
+
+
+            setTimeout(function() {
+                isCooldown = false;
+                cat.classList.remove('cooldown');
+            }, 1000);
+        }
+    </script>
 
     <center>
         <h1>КОТ В ВЕДРЕ</h1>
 
-        <img src="catbucket.png" alt="Кот в ведре" width="400">
+        <img src="catbucket.png" alt="Кот в ведре" id="cat" class="cat" onclick="flipCat()">
+
+        <audio id="meow" src="cat.mp3" preload="auto"></audio>
 
         <marquee scrollamount="3" direction="left"><p>Это не культ. Это клуб.</p></marquee>
         <marquee scrollamount="7" direction="right"><p>Ведро — это не просто ёмкость. Это состояние души.</p></marquee>
@@ -26,7 +75,8 @@
         <hr>
 
         <p>@cluboflovecats.</p>
-        <p>This site displays better than anywhere else.</p>
+
+        <p><b>This site displays better than anywhere else.</b></p>
     </center>
 
 </body>
