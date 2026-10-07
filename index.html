@@ -22,29 +22,33 @@
 
     <script>
         var isCooldown = false;
+        var musicStarted = false;
 
         function flipCat() {
             if (isCooldown) return;
 
             var cat = document.getElementById('cat');
             var audio = document.getElementById('meow');
+            var music = document.getElementById('bgmusic');
 
+
+            if (!musicStarted) {
+                music.volume = 0.3;
+                music.play();
+                musicStarted = true;
+            }
 
             isCooldown = true;
             cat.classList.add('cooldown');
 
-
             cat.classList.add('flip');
-
 
             audio.currentTime = 0;
             audio.play();
 
-
             setTimeout(function() {
                 cat.classList.remove('flip');
             }, 600);
-
 
             setTimeout(function() {
                 isCooldown = false;
@@ -59,6 +63,8 @@
         <img src="catbucket.png" alt="Кот в ведре" id="cat" class="cat" onclick="flipCat()">
 
         <audio id="meow" src="cat.mp3" preload="auto"></audio>
+
+        <audio id="bgmusic" src="sound.m4a" loop preload="auto"></audio>
 
         <marquee scrollamount="3" direction="left"><p>Это не культ. Это клуб.</p></marquee>
         <marquee scrollamount="7" direction="right"><p>Ведро - это не просто ёмкость. Это состояние души.</p></marquee>
