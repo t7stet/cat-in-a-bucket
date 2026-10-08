@@ -16,46 +16,49 @@
             cursor: not-allowed;
             opacity: 0.5;
         }
+
+        #contractCanvas {
+            border: 5px dashed lime;
+            width: 1700px;
+            max-width: 90%;
+            margin-top: 20px;
+        }
+
+        #nameInput {
+            font-size: 24px;
+            padding: 10px;
+            font-family: "Comic Sans MS", cursive;
+            border: 3px solid lime;
+            background: black;
+            color: lime;
+            width: 300px;
+        }
+
+        .btn {
+            font-size: 20px;
+            padding: 5px 15px;
+            font-family: "Comic Sans MS", cursive;
+            font-weight: bold;
+            color: black;
+            border: 3px solid black;
+            cursor: pointer;
+            margin: 5px;
+            animation: harsh-rainbow 0.5s infinite steps(1);
+        }
+
+        @keyframes harsh-rainbow {
+            0%   { background: red; }
+            14%  { background: orange; }
+            28%  { background: yellow; }
+            42%  { background: lime; }
+            57%  { background: cyan; }
+            71%  { background: blue; }
+            85%  { background: magenta; }
+            100% { background: red; }
+        }
     </style>
 </head>
 <body background="background.png" text="lime" bgcolor="black">
-
-    <script>
-        var isCooldown = false;
-        var musicStarted = false;
-
-        function flipCat() {
-            if (isCooldown) return;
-
-            var cat = document.getElementById('cat');
-            var audio = document.getElementById('meow');
-            var music = document.getElementById('bgmusic');
-
-
-            if (!musicStarted) {
-                music.volume = 0.3;
-                music.play();
-                musicStarted = true;
-            }
-
-            isCooldown = true;
-            cat.classList.add('cooldown');
-
-            cat.classList.add('flip');
-
-            audio.currentTime = 0;
-            audio.play();
-
-            setTimeout(function() {
-                cat.classList.remove('flip');
-            }, 600);
-
-            setTimeout(function() {
-                isCooldown = false;
-                cat.classList.remove('cooldown');
-            }, 1000);
-        }
-    </script>
 
     <center>
         <h1>КОТ В ВЕДРЕ</h1>
@@ -63,7 +66,6 @@
         <img src="catbucket.png" alt="Кот в ведре" id="cat" class="cat" onclick="flipCat()">
 
         <audio id="meow" src="cat.mp3" preload="auto"></audio>
-
         <audio id="bgmusic" src="sound.m4a" loop preload="auto"></audio>
 
         <marquee scrollamount="3" direction="left"><p>Это не культ. Это клуб.</p></marquee>
@@ -80,10 +82,126 @@
 
         <hr>
 
+        <h2>ДОГОВОР О ВСТУПЛЕНИИ</h2>
+        <p>Введи своё имя, чтобы подписать договор:</p>
+        <input type="text" id="nameInput" maxlength="20" placeholder="Твоё имя...">
+        <br>
+        <button class="btn" onclick="signContract()">✍️ Подписать</button>
+        <button class="btn" onclick="downloadContract()">💾 Скачать</button>
+        <button class="btn" onclick="printContract()">🖨️ Распечатать</button>
+        <br>
+        <canvas id="contractCanvas"></canvas>
+
+        <hr>
+
         <p>@cluboflovecats.</p>
 
         <p><b>This site displays better than anywhere else.</b></p>
     </center>
+
+    <script>
+        var isCooldown = false;
+        var musicStarted = false;
+
+        function flipCat() {
+            if (isCooldown) return;
+
+            var cat = document.getElementById('cat');
+            var audio = document.getElementById('meow');
+            var music = document.getElementById('bgmusic');
+
+            if (!musicStarted) {
+                music.volume = 0.3;
+                music.play();
+                musicStarted = true;
+            }
+
+            isCooldown = true;
+            cat.classList.add('cooldown');
+            cat.classList.add('flip');
+
+            audio.currentTime = 0;
+            audio.play();
+
+            setTimeout(function() {
+                cat.classList.remove('flip');
+            }, 600);
+
+            setTimeout(function() {
+                isCooldown = false;
+                cat.classList.remove('cooldown');
+            }, 1000);
+        }
+
+        var contractImg = new Image();
+        contractImg.src = 'contract.png';
+
+        var canvas = document.getElementById('contractCanvas');
+        var ctx = canvas.getContext('2d');
+
+        var IMG_W = 2686;
+        var IMG_H = 1334;
+
+        var SIGN_X = 2000;
+        var SIGN_Y = 1000;
+
+        var MAX_CHARS = 20;
+
+        contractImg.onload = function() {
+            canvas.width = IMG_W;
+            canvas.height = IMG_H;
+            ctx.drawImage(contractImg, 0, 0);
+        };
+
+        function drawRainbowText(text, x, y, fontSize) {
+            var colors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#9400D3'];
+            ctx.font = fontSize + 'px "Comic Sans MS", cursive';
+            ctx.textBaseline = 'alphabetic';
+
+            var currentX = x;
+            for (var i = 0; i < text.length; i++) {
+                ctx.fillStyle = colors[i % colors.length];
+                ctx.fillText(text[i], currentX, y);
+                currentX += ctx.measureText(text[i]).width;
+            }
+        }
+
+        function signContract() {
+            var name = document.getElementById('nameInput').value;
+
+            if (name.length > MAX_CHARS) {
+                name = name.substring(0, MAX_CHARS);
+            }
+
+            if (name.trim() === '') {
+                alert('Введи имя, кот ждёт!');
+                return;
+            }
+
+            ctx.drawImage(contractImg, 0, 0);
+
+            var fontSize = 60;
+            if (name.length > 10) fontSize = 40;
+            if (name.length > 15) fontSize = 30;
+            if (name.length > 18) fontSize = 25;
+
+            drawRainbowText(name, SIGN_X, SIGN_Y, fontSize);
+        }
+
+        function downloadContract() {
+            var link = document.createElement('a');
+            link.download = 'dogovor-kot-v-vedre.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+
+        function printContract() {
+            var dataUrl = canvas.toDataURL('image/png');
+            var win = window.open('', '_blank');
+            win.document.write('<img src="' + dataUrl + '" onload="window.print();window.close();">');
+            win.document.close();
+        }
+    </script>
 
 </body>
 </html>
