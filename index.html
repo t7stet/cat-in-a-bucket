@@ -239,6 +239,28 @@
             0%, 100% { text-shadow: 0 0 20px rgba(120,0,0,0.6), 0 0 60px rgba(80,0,0,0.4); }
             50%      { text-shadow: 0 0 30px rgba(160,0,0,0.85), 0 0 90px rgba(100,0,0,0.6); }
         }
+
+        #langSwitch {
+            margin-top: 30px;
+            margin-bottom: 20px;
+            font-family: "Comic Sans MS Local", "Comic Sans MS", cursive;
+            font-size: 16px;
+            color: lime;
+        }
+        #langSwitch button {
+            font-family: "Comic Sans MS Local", "Comic Sans MS", cursive;
+            font-size: 16px;
+            padding: 4px 14px;
+            margin: 0 5px;
+            background: black;
+            color: lime;
+            border: 2px solid lime;
+            cursor: pointer;
+        }
+        #langSwitch button.active {
+            background: lime;
+            color: black;
+        }
     </style>
 </head>
 <body text="lime" bgcolor="black">
@@ -251,13 +273,13 @@
                 <a href="https://webneko.net">Neko</a>
             </h1>
 
-            <p>Сейчас: <span id="clock">--:--:--</span></p>
-            <p>Сегодня: <span id="dayofweek"></span></p>
-            <p>Погода сейчас: <span id="weather"></span></p>
-            <p>Вы посетитель № <span style="color: gold;" id="visitor"></span></p>
-            <p>До Нового года: <span id="newyear">--</span></p>
+            <p><span data-ru="Сейчас: " data-en="Now: ">Сейчас: </span><span id="clock">--:--:--</span></p>
+            <p><span data-ru="Сегодня: " data-en="Today: ">Сегодня: </span><span id="dayofweek"></span></p>
+            <p><span data-ru="Погода сейчас: " data-en="Weather now: ">Погода сейчас: </span><span id="weather"></span></p>
+            <p><span data-ru="Вы посетитель № " data-en="You are visitor number ">Вы посетитель № </span><span style="color: gold;" id="visitor"></span></p>
+            <p><span data-ru="До Нового года: " data-en="Before New Year: ">До Нового года: </span><span id="newyear">--</span></p>
 
-            <h1 class="h1">КОТ В ВЕДРЕ</h1>
+            <h1 class="h1" data-ru="КОТ В ВЕДРЕ" data-en="CAT IN BUCKET">КОТ В ВЕДРЕ</h1>
 
             <div class="cat-shake" id="catShake">
                 <img src="catbucket.png" alt="Кот в ведре" id="cat" class="cat" onclick="clickCat()">
@@ -268,32 +290,32 @@
             <audio id="bgmusic" src="sound.m4a" loop preload="auto"></audio>
             <audio id="eerie" src="eerie.m4a" loop preload="auto"></audio>
 
-            <marquee scrollamount="3" direction="left"><p>Это не культ. Это клуб.</p></marquee>
-            <marquee scrollamount="7" direction="right"><p>Ведро - это не просто ёмкость. Это состояние души.</p></marquee>
-            <marquee scrollamount="2" direction="left"><p>Кот - это не просто животное. Это вектор развития.</p></marquee>
-            <marquee scrollamount="10" direction="right"><p>Суть именно в ведре. Именно в ведре и именно кота.</p></marquee>
-            <marquee scrollamount="5" direction="left"><p>Ты либо в ведре, либо вне ведра. Половинок не бывает.</p></marquee>
+            <marquee scrollamount="3" direction="left"><p data-ru="Это не культ. Это клуб." data-en="This is not cult. This is club.">Это не культ. Это клуб.</p></marquee>
+            <marquee scrollamount="7" direction="right"><p data-ru="Ведро - это не просто ёмкость. Это состояние души." data-en="Bucket is not simply capacity. This is state of soul.">Ведро - это не просто ёмкость. Это состояние души.</p></marquee>
+            <marquee scrollamount="2" direction="left"><p data-ru="Кот - это не просто животное. Это вектор развития." data-en="Cat is not simply animal. This is vector of development.">Кот - это не просто животное. Это вектор развития.</p></marquee>
+            <marquee scrollamount="10" direction="right"><p data-ru="Суть именно в ведре. Именно в ведре и именно кота." data-en="Essence is exactly in bucket. Exactly in bucket and exactly of cat.">Суть именно в ведре. Именно в ведре и именно кота.</p></marquee>
+            <marquee scrollamount="5" direction="left"><p data-ru="Ты либо в ведре, либо вне ведра. Половинок не бывает." data-en="You either in bucket, either outside bucket. Halfs does not happen.">Ты либо в ведре, либо вне ведра. Половинок не бывает.</p></marquee>
 
             <marquee scrollamount="1" direction="right"><p>★ ★ ★ ★ ★</p></marquee>
-            <marquee scrollamount="15" direction="left"><p>ОЦЕНКА: 13/10</p></marquee>
+            <marquee scrollamount="15" direction="left"><p data-ru="ОЦЕНКА: 13/10" data-en="RATING: 13/10">ОЦЕНКА: 13/10</p></marquee>
 
             <img src="example.png" alt="Кот в ведре" width="800">
 
             <hr>
 
-            <h2>ДОГОВОР О ВСТУПЛЕНИИ</h2>
-            <p>Введи своё имя, чтобы подписать договор:</p>
+            <h2 data-ru="ДОГОВОР О ВСТУПЛЕНИИ" data-en="CONTRACT ABOUT ENTERING">ДОГОВОР О ВСТУПЛЕНИИ</h2>
+            <p data-ru="Введи своё имя, чтобы подписать договор:" data-en="Enter your name for sign contract:">Введи своё имя, чтобы подписать договор:</p>
             <input type="text" id="nameInput" maxlength="20" placeholder="Твоё имя...">
             <br>
-            <button class="btn" onclick="signContract()">Подписать</button>
-            <button class="btn" onclick="downloadContract()">Скачать</button>
-            <button class="btn" onclick="printContract()">Распечатать</button>
+            <button class="btn" onclick="signContract()" data-ru="Подписать" data-en="Sign">Подписать</button>
+            <button class="btn" onclick="downloadContract()" data-ru="Скачать" data-en="Download">Скачать</button>
+            <button class="btn" onclick="printContract()" data-ru="Распечатать" data-en="Print">Распечатать</button>
             <br>
             <canvas id="contractCanvas"></canvas>
 
             <hr>
 
-            <p>привет если ты это читаешь ты круто!!</p>
+            <p data-ru="привет если ты это читаешь ты круто!!" data-en="hello if you read this you cool!!">привет если ты это читаешь ты круто!!</p>
 
             <a href="https://ubuntu.com" target="_blank" rel="noopener">
                 <img src="getubuntu.png" alt="Get Ubuntu">
@@ -309,6 +331,12 @@
             <img src="smile.png" alt="Have a smile!">
             <img src="notepad4.gif" alt="Made with Notepad">
             <img src="not_intended_for_children_03.jpeg" alt="not_intended for children!!!">
+
+            <div id="langSwitch">
+                <span data-ru="Язык:" data-en="Language:">Язык:</span>
+                <button id="btnRu" onclick="setLang('ru')">RU</button>
+                <button id="btnEn" onclick="setLang('en')">EN</button>
+            </div>
         </center>
     </div>
 
@@ -354,6 +382,45 @@
     </svg>
 
     <script>
+        var LANG_KEY = 'catbucket_lang';
+
+        function applyLang(lang) {
+            document.querySelectorAll('[data-ru][data-en]').forEach(function(el) {
+                el.textContent = el.getAttribute(lang === 'en' ? 'data-en' : 'data-ru');
+            });
+
+            document.documentElement.lang = lang;
+
+            var btnRu = document.getElementById('btnRu');
+            var btnEn = document.getElementById('btnEn');
+            if (btnRu && btnEn) {
+                btnRu.classList.toggle('active', lang === 'ru');
+                btnEn.classList.toggle('active', lang === 'en');
+            }
+
+            var nameInput = document.getElementById('nameInput');
+            if (nameInput) {
+                nameInput.placeholder = (lang === 'en') ? 'Your name...' : 'Твоё имя...';
+            }
+        }
+
+        function setLang(lang) {
+            localStorage.setItem(LANG_KEY, lang);
+            applyLang(lang);
+        }
+
+        (function initLang() {
+            var saved = localStorage.getItem(LANG_KEY);
+            var lang;
+            if (saved === 'ru' || saved === 'en') {
+                lang = saved;
+            } else {
+                var browserLang = (navigator.language || navigator.userLanguage || 'ru').toLowerCase();
+                lang = browserLang.indexOf('ru') === 0 ? 'ru' : 'en';
+            }
+            applyLang(lang);
+        })();
+
         setInterval(function() {
             var now = new Date();
             var h = String(now.getHours()).padStart(2, '0');
@@ -362,11 +429,24 @@
             document.getElementById('clock').textContent = h + ':' + m + ':' + s;
         }, 1000);
 
-        var days = ['воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'];
-        document.getElementById('dayofweek').textContent = days[new Date().getDay()];
+        var daysRu = ['воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'];
+        var daysEn = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        function updateDay() {
+            var lang = localStorage.getItem(LANG_KEY) || 'ru';
+            var arr = (lang === 'en') ? daysEn : daysRu;
+            document.getElementById('dayofweek').textContent = arr[new Date().getDay()];
+        }
+        updateDay();
 
-        var weather = ['+13°C, облачно', 'ведро', 'кот', '-273°C', 'дождь из котов', 'ясно, но это не точно', 'холодно', 'жарко'];
-        document.getElementById('weather').textContent = weather[Math.floor(Math.random() * weather.length)];
+        var weatherRu = ['+13°C, облачно', 'ведро', 'кот', '-273°C', 'дождь из котов', 'ясно, но это не точно', 'холодно', 'жарко'];
+        var weatherEn = ['+13°C, cloudy', 'bucket', 'cat', '-273°C', 'rain of cats', 'clear, but it is not exact', 'cold', 'hot'];
+        var weatherIndex = Math.floor(Math.random() * weatherRu.length);
+        function updateWeather() {
+            var lang = localStorage.getItem(LANG_KEY) || 'ru';
+            var arr = (lang === 'en') ? weatherEn : weatherRu;
+            document.getElementById('weather').textContent = arr[weatherIndex];
+        }
+        updateWeather();
 
         document.getElementById('visitor').textContent = Math.floor(Math.random() * 9000000) + 1000000;
 
@@ -378,8 +458,17 @@
             var h = Math.floor((diff % 86400000) / 3600000);
             var m = Math.floor((diff % 3600000) / 60000);
             var s = Math.floor((diff % 60000) / 1000);
-            document.getElementById('newyear').textContent = d + 'д ' + h + 'ч ' + m + 'м ' + s + 'с';
+            var lang = localStorage.getItem(LANG_KEY) || 'ru';
+            var suffix = (lang === 'en') ? ['d ', 'h ', 'm ', 's'] : ['д ', 'ч ', 'м ', 'с'];
+            document.getElementById('newyear').textContent = d + suffix[0] + h + suffix[1] + m + suffix[2] + s + suffix[3];
         }, 1000);
+
+        var _origApplyLang = applyLang;
+        applyLang = function(lang) {
+            _origApplyLang(lang);
+            updateDay();
+            updateWeather();
+        };
 
         var ANGER_THRESHOLD = 6;
         var ANGER_MAX = 12;
@@ -676,6 +765,7 @@
             updateAngerVisual();
             localStorage.removeItem(STORAGE_KEY);
         }
+
         var contractImg = new Image();
         contractImg.src = 'contract.png';
 
@@ -710,7 +800,11 @@
         function signContract() {
             var name = document.getElementById('nameInput').value;
             if (name.length > MAX_CHARS) name = name.substring(0, MAX_CHARS);
-            if (name.trim() === '') { alert('Ты не ввел имя!'); return; }
+            if (name.trim() === '') {
+                var lang = localStorage.getItem(LANG_KEY) || 'ru';
+                alert(lang === 'en' ? 'You did not entered name!' : 'Ты не ввел имя!');
+                return;
+            }
 
             ctx.drawImage(contractImg, 0, 0);
 
