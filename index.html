@@ -5,18 +5,121 @@
     <title>Кот в ведре</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
+        @font-face {
+            font-family: "Comic Sans MS Local";
+            src: url("comic-sans-ms-regular-3-2.ttf") format("truetype");
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+        }
+
+        #page {
+            background-image: url("background.png");
+            background-repeat: repeat;
+            background-color: black;
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+
+        .cat-shake {
+            display: inline-block;
+            line-height: 0;
+            user-select: none;
+        }
+
         .cat {
-            transition: transform 0.6s ease-in-out;
+            transition: transform 0.6s ease-in-out, filter 0.6s ease;
             cursor: pointer;
             width: 400px;
+            user-select: none;
+            -webkit-user-drag: none;
+            display: block;
         }
-        .flip {
-            transform: rotate(4000deg);
+        .cat.angry-1 { filter: url(#redden-1); }
+        .cat.angry-2 { filter: url(#redden-2); }
+        .cat.angry-3 { filter: url(#redden-3); }
+        .cat.angry-4 { filter: url(#redden-4); }
+
+        .flip { transform: rotate(4000deg); }
+        .cooldown { cursor: not-allowed; opacity: 0.5; }
+
+        @keyframes shake-1 {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25%      { transform: translate(-3px, 3px) rotate(-0.6deg); }
+            50%      { transform: translate(3px, -3px) rotate(0.6deg); }
+            75%      { transform: translate(-3px, -2px) rotate(-0.3deg); }
         }
-        .cooldown {
-            cursor: not-allowed;
-            opacity: 0.5;
+        @keyframes shake-2 {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            20%      { transform: translate(-7px, 6px) rotate(-1.4deg); }
+            40%      { transform: translate(7px, -6px) rotate(1.4deg); }
+            60%      { transform: translate(-6px, -5px) rotate(-0.9deg); }
+            80%      { transform: translate(6px, 5px) rotate(0.9deg); }
         }
+        @keyframes shake-3 {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            10%      { transform: translate(-13px, 10px) rotate(-2.4deg); }
+            30%      { transform: translate(13px, -10px) rotate(2.4deg); }
+            50%      { transform: translate(-11px, 12px) rotate(-1.8deg); }
+            70%      { transform: translate(11px, -12px) rotate(1.8deg); }
+            90%      { transform: translate(-8px, 8px) rotate(-1.2deg); }
+        }
+        @keyframes shake-4 {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            10%      { transform: translate(-22px, 16px) rotate(-4deg); }
+            25%      { transform: translate(22px, -16px) rotate(4deg); }
+            40%      { transform: translate(-20px, 20px) rotate(-3.5deg); }
+            55%      { transform: translate(20px, -20px) rotate(3.5deg); }
+            70%      { transform: translate(-16px, 14px) rotate(-2.5deg); }
+            85%      { transform: translate(16px, -14px) rotate(2.5deg); }
+        }
+
+        .cat-shake.shake-1 { animation: shake-1 0.30s linear infinite; }
+        .cat-shake.shake-2 { animation: shake-2 0.20s linear infinite; }
+        .cat-shake.shake-3 { animation: shake-3 0.12s linear infinite; }
+        .cat-shake.shake-4 { animation: shake-4 0.06s linear infinite; }
+
+        @keyframes page-shake-1 {
+            0%, 100% { transform: translate(0, 0); }
+            25%      { transform: translate(-2px, 2px); }
+            50%      { transform: translate(2px, -2px); }
+            75%      { transform: translate(-2px, -2px); }
+        }
+        @keyframes page-shake-2 {
+            0%, 100% { transform: translate(0, 0); }
+            20%      { transform: translate(-5px, 4px); }
+            40%      { transform: translate(5px, -4px); }
+            60%      { transform: translate(-4px, -4px); }
+            80%      { transform: translate(4px, 4px); }
+        }
+        @keyframes page-shake-3 {
+            0%, 100% { transform: translate(0, 0); }
+            10%      { transform: translate(-9px, 7px); }
+            30%      { transform: translate(9px, -7px); }
+            50%      { transform: translate(-7px, 9px); }
+            70%      { transform: translate(7px, -9px); }
+            90%      { transform: translate(-5px, 5px); }
+        }
+        @keyframes page-shake-4 {
+            0%, 100% { transform: translate(0, 0); }
+            10%      { transform: translate(-16px, 12px); }
+            25%      { transform: translate(16px, -12px); }
+            40%      { transform: translate(-14px, 14px); }
+            55%      { transform: translate(14px, -14px); }
+            70%      { transform: translate(-11px, 11px); }
+            85%      { transform: translate(11px, -11px); }
+        }
+
+        #page.page-shake-1 { animation: page-shake-1 0.30s linear infinite; }
+        #page.page-shake-2 { animation: page-shake-2 0.20s linear infinite; }
+        #page.page-shake-3 { animation: page-shake-3 0.12s linear infinite; }
+        #page.page-shake-4 { animation: page-shake-4 0.06s linear infinite; }
 
         #contractCanvas {
             border: 5px dashed lime;
@@ -28,7 +131,7 @@
         #nameInput {
             font-size: 24px;
             padding: 10px;
-            font-family: "Comic Sans MS", cursive;
+            font-family: "Comic Sans MS Local", "Comic Sans MS", cursive;
             border: 3px solid lime;
             background: black;
             color: lime;
@@ -38,7 +141,7 @@
         .btn {
             font-size: 20px;
             padding: 5px 15px;
-            font-family: "Comic Sans MS", cursive;
+            font-family: "Comic Sans MS Local", "Comic Sans MS", cursive;
             font-weight: bold;
             color: black;
             border: 3px solid black;
@@ -57,83 +160,522 @@
             85%  { background: magenta; }
             100% { background: red; }
         }
+
+        .h1 {
+            font-size: 80px;
+            font-family: "Comic Sans MS Local", "Comic Sans MS", cursive;
+            font-weight: bold;
+            text-align: center;
+            background: linear-gradient(
+                90deg,
+                #ff0000, #ff7f00, #ffff00, #00ff00,
+                #0000ff, #4b0082, #9400d3, #ff0000
+            );
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            animation: rainbow-scroll 5s linear infinite;
+        }
+
+        @keyframes rainbow-scroll {
+            0%   { background-position: 0% 50%; }
+            100% { background-position: 400% 50%; }
+        }
+
+        #void {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            color: #111;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            font-family: Georgia, "Times New Roman", "Liberation Serif", serif;
+        }
+        #void.active { display: flex; }
+
+        #void .whisper {
+            font-size: 72px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #5a0000;
+            text-align: center;
+            line-height: 1.2;
+            text-shadow:
+                0 0 20px rgba(120, 0, 0, 0.6),
+                0 0 60px rgba(80, 0, 0, 0.4);
+            animation: fadein 6s ease, breathe 5s ease-in-out infinite;
+        }
+
+        #void .warning {
+            margin-top: 40px;
+            max-width: 620px;
+            text-align: center;
+            font-size: 12px;
+            line-height: 1.7;
+            color: #4a1010;
+            font-style: italic;
+            letter-spacing: 0.02em;
+            animation: fadein 8s ease;
+            font-family: "Comic Sans MS Local";
+        }
+
+        #void .timer {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 14px;
+            color: #300;
+            font-family: "Courier New", monospace;
+            letter-spacing: 0.1em;
+        }
+
+        @keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes breathe {
+            0%, 100% { text-shadow: 0 0 20px rgba(120,0,0,0.6), 0 0 60px rgba(80,0,0,0.4); }
+            50%      { text-shadow: 0 0 30px rgba(160,0,0,0.85), 0 0 90px rgba(100,0,0,0.6); }
+        }
     </style>
 </head>
-<body background="background.png" text="lime" bgcolor="black">
+<body text="lime" bgcolor="black">
 
-    <center>
-        <h1>КОТ В ВЕДРЕ</h1>
+    <div id="page">
+        <center>
+            <script>NekoType="white"</script>
+            <h1 id="nl">
+                <script src="https://webneko.net/n20171213.js"></script>
+                <a href="https://webneko.net">Neko</a>
+            </h1>
 
-        <img src="catbucket.png" alt="Кот в ведре" id="cat" class="cat" onclick="flipCat()">
+            <p>Сейчас: <span id="clock">--:--:--</span></p>
+            <p>Сегодня: <span id="dayofweek"></span></p>
+            <p>Погода сейчас: <span id="weather"></span></p>
+            <p>Вы посетитель № <span style="color: gold;" id="visitor"></span></p>
+            <p>До Нового года: <span id="newyear">--</span></p>
 
-        <audio id="meow" src="cat.mp3" preload="auto"></audio>
-        <audio id="bgmusic" src="sound.m4a" loop preload="auto"></audio>
+            <h1 class="h1">КОТ В ВЕДРЕ</h1>
 
-        <marquee scrollamount="3" direction="left"><p>Это не культ. Это клуб.</p></marquee>
-        <marquee scrollamount="7" direction="right"><p>Ведро - это не просто ёмкость. Это состояние души.</p></marquee>
-        <marquee scrollamount="2" direction="left"><p>Кот - это не просто животное. Это вектор развития.</p></marquee>
-        <marquee scrollamount="10" direction="right"><p>Суть именно в ведре. Именно в ведре и именно кота.</p></marquee>
-        <marquee scrollamount="5" direction="left"><p>Ты либо в ведре, либо вне ведра. Половинок не бывает.</p></marquee>
+            <div class="cat-shake" id="catShake">
+                <img src="catbucket.png" alt="Кот в ведре" id="cat" class="cat" onclick="clickCat()">
+            </div>
 
-        <marquee scrollamount="1" direction="right"><p>★ ★ ★ ★ ★</p></marquee>
+            <audio id="meow" src="cat.mp3" preload="auto"></audio>
+            <audio id="angryMeow" src="angry.mp3" preload="auto"></audio>
+            <audio id="bgmusic" src="sound.m4a" loop preload="auto"></audio>
+            <audio id="eerie" src="eerie.m4a" loop preload="auto"></audio>
 
-        <marquee scrollamount="15" direction="left"><p>ОЦЕНКА: 13/10</p></marquee>
+            <marquee scrollamount="3" direction="left"><p>Это не культ. Это клуб.</p></marquee>
+            <marquee scrollamount="7" direction="right"><p>Ведро - это не просто ёмкость. Это состояние души.</p></marquee>
+            <marquee scrollamount="2" direction="left"><p>Кот - это не просто животное. Это вектор развития.</p></marquee>
+            <marquee scrollamount="10" direction="right"><p>Суть именно в ведре. Именно в ведре и именно кота.</p></marquee>
+            <marquee scrollamount="5" direction="left"><p>Ты либо в ведре, либо вне ведра. Половинок не бывает.</p></marquee>
 
-        <img src="example.png" alt="Кот в ведре" width="800">
+            <marquee scrollamount="1" direction="right"><p>★ ★ ★ ★ ★</p></marquee>
+            <marquee scrollamount="15" direction="left"><p>ОЦЕНКА: 13/10</p></marquee>
 
-        <hr>
+            <img src="example.png" alt="Кот в ведре" width="800">
 
-        <h2>ДОГОВОР О ВСТУПЛЕНИИ</h2>
-        <p>Введи своё имя, чтобы подписать договор:</p>
-        <input type="text" id="nameInput" maxlength="20" placeholder="Твоё имя...">
-        <br>
-        <button class="btn" onclick="signContract()">Подписать</button>
-        <button class="btn" onclick="downloadContract()">Скачать</button>
-        <button class="btn" onclick="printContract()">Распечатать</button>
-        <br>
-        <canvas id="contractCanvas"></canvas>
+            <hr>
 
-        <hr>
+            <h2>ДОГОВОР О ВСТУПЛЕНИИ</h2>
+            <p>Введи своё имя, чтобы подписать договор:</p>
+            <input type="text" id="nameInput" maxlength="20" placeholder="Твоё имя...">
+            <br>
+            <button class="btn" onclick="signContract()">Подписать</button>
+            <button class="btn" onclick="downloadContract()">Скачать</button>
+            <button class="btn" onclick="printContract()">Распечатать</button>
+            <br>
+            <canvas id="contractCanvas"></canvas>
 
-        <p>@cluboflovecats.</p>
+            <hr>
 
-        <p><b>This site displays better than anywhere else.</b></p>
-    </center>
+            <p>привет если ты это читаешь ты круто!!</p>
+
+            <a href="https://ubuntu.com" target="_blank" rel="noopener">
+                <img src="getubuntu.png" alt="Get Ubuntu">
+            </a>
+            <img src="catgender.png" alt="gender = cat">
+            <img src="lol.gif" alt="LOOOL!">
+            <a href="https://t.me/cluboflovecats" target="_blank" rel="noopener">
+                <img src="telegram-old.gif" alt="Join us Telegram Channel!!">
+            </a>
+            <a href="https://steamcommunity.com/id/TISTET/" target="_blank" rel="noopener">
+                <img src="steam.gif" alt="Friend me on Steam!!!!">
+            </a>
+            <img src="smile.png" alt="Have a smile!">
+            <img src="notepad4.gif" alt="Made with Notepad">
+            <img src="not_intended_for_children_03.jpeg" alt="not_intended for children!!!">
+        </center>
+    </div>
+
+    <div id="void">
+        <div class="whisper" id="voidText">YOU DIED.</div>
+        <div class="warning" id="voidWarning">
+            перезапуск страницы не выпустит тебя.<br>
+            он только оборвёт музыку и вернёт тебя сюда же.<br>
+            просто подожди некоторое время :3
+        </div>
+        <div class="timer" id="voidTimer"></div>
+    </div>
+
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <filter id="redden-1" color-interpolation-filters="sRGB">
+            <feColorMatrix type="matrix" values="
+                1.2 0   0   0 0
+                0   0.85 0  0 0
+                0   0   0.85 0 0
+                0   0   0   1 0"/>
+        </filter>
+        <filter id="redden-2" color-interpolation-filters="sRGB">
+            <feColorMatrix type="matrix" values="
+                1.5 0   0   0 0
+                0   0.65 0  0 0
+                0   0   0.65 0 0
+                0   0   0   1 0"/>
+        </filter>
+        <filter id="redden-3" color-interpolation-filters="sRGB">
+            <feColorMatrix type="matrix" values="
+                1.9 0   0   0 0
+                0   0.4  0  0 0
+                0   0   0.4 0 0
+                0   0   0   1 0"/>
+        </filter>
+        <filter id="redden-4" color-interpolation-filters="sRGB">
+            <feColorMatrix type="matrix" values="
+                2.4 0   0   0 0
+                0   0.2  0  0 0
+                0   0   0.2 0 0
+                0   0   0   1 0"/>
+        </filter>
+    </svg>
 
     <script>
+        setInterval(function() {
+            var now = new Date();
+            var h = String(now.getHours()).padStart(2, '0');
+            var m = String(now.getMinutes()).padStart(2, '0');
+            var s = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock').textContent = h + ':' + m + ':' + s;
+        }, 1000);
+
+        var days = ['воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'];
+        document.getElementById('dayofweek').textContent = days[new Date().getDay()];
+
+        var weather = ['+13°C, облачно', 'ведро', 'кот', '-273°C', 'дождь из котов', 'ясно, но это не точно', 'холодно', 'жарко'];
+        document.getElementById('weather').textContent = weather[Math.floor(Math.random() * weather.length)];
+
+        document.getElementById('visitor').textContent = Math.floor(Math.random() * 9000000) + 1000000;
+
+        setInterval(function() {
+            var now = new Date();
+            var nextYear = new Date(now.getFullYear() + 1, 0, 1);
+            var diff = nextYear - now;
+            var d = Math.floor(diff / 86400000);
+            var h = Math.floor((diff % 86400000) / 3600000);
+            var m = Math.floor((diff % 3600000) / 60000);
+            var s = Math.floor((diff % 60000) / 1000);
+            document.getElementById('newyear').textContent = d + 'д ' + h + 'ч ' + m + 'м ' + s + 'с';
+        }, 1000);
+
+        var ANGER_THRESHOLD = 6;
+        var ANGER_MAX = 12;
+        var MAX_HITS_BEFORE_VOID = 2;
+        var FAST_CLICK_MS = 1200;
+        var RELEASE_MS = 10 * 60 * 1000;
+        var STORAGE_KEY = 'catbucket_void';
+        var VOID_TEXT = 'YOU DIED.';
+
+        var DECAY_AFTER_MS = 2000;
+        var DECAY_TICK_MS  = 1000;
+
+        var EERIE_TARGET_VOLUME = 0.15;
+        var EERIE_FADE_MS = 4000;
+        var eerieFadeHandle = null;
+        var eerieUnlockAttached = false;
+
         var isCooldown = false;
         var musicStarted = false;
+        var anger = 0;
+        var maxHitsLeft = 0;
+        var lastClickTime = 0;
+        var voidTimerHandle = null;
+        var decayHandle = null;
 
-        function flipCat() {
+        var pageEl = document.getElementById('page');
+        var cat = document.getElementById('cat');
+        var catShake = document.getElementById('catShake');
+        var meow = document.getElementById('meow');
+        var angryMeow = document.getElementById('angryMeow');
+        var bgmusic = document.getElementById('bgmusic');
+        var eerie = document.getElementById('eerie');
+        var voidEl = document.getElementById('void');
+        var voidText = document.getElementById('voidText');
+        var voidTimer = document.getElementById('voidTimer');
+        var voidWarning = document.getElementById('voidWarning');
+
+        function beforeUnloadHandler(e) {
+            e.preventDefault();
+            e.returnValue = '';
+            return '';
+        }
+
+        function attachBeforeUnload() {
+            window.addEventListener('beforeunload', beforeUnloadHandler);
+        }
+        function detachBeforeUnload() {
+            window.removeEventListener('beforeunload', beforeUnloadHandler);
+        }
+
+        (function checkSaved() {
+            var saved = localStorage.getItem(STORAGE_KEY);
+            if (!saved) return;
+            try {
+                var data = JSON.parse(saved);
+                var elapsed = Date.now() - data.start;
+                if (elapsed < RELEASE_MS) {
+                    enterVoid(data.start);
+                } else {
+                    localStorage.removeItem(STORAGE_KEY);
+                }
+            } catch (e) {
+                localStorage.removeItem(STORAGE_KEY);
+            }
+        })();
+
+        function clickCat() {
             if (isCooldown) return;
+            if (voidEl.classList.contains('active')) return;
 
-            var cat = document.getElementById('cat');
-            var audio = document.getElementById('meow');
-            var music = document.getElementById('bgmusic');
+            var now = Date.now();
+            var delta = now - lastClickTime;
+            lastClickTime = now;
 
             if (!musicStarted) {
-                music.volume = 0.3;
-                music.play();
+                bgmusic.volume = 0.3;
+                bgmusic.play().catch(function(){});
                 musicStarted = true;
             }
+
+            if (anger >= ANGER_MAX) {
+                maxHitsLeft--;
+                updateAngerVisual();
+
+                isCooldown = true;
+                cat.classList.add('cooldown');
+                cat.classList.add('flip');
+                try {
+                    angryMeow.currentTime = 0;
+                    angryMeow.play().catch(function(){});
+                } catch (e) {}
+                setTimeout(function() { cat.classList.remove('flip'); }, 600);
+                setTimeout(function() {
+                    isCooldown = false;
+                    cat.classList.remove('cooldown');
+                }, 1000);
+
+                if (maxHitsLeft <= 0) {
+                    enterVoid(Date.now());
+                }
+                return;
+            }
+
+            if (delta < FAST_CLICK_MS) {
+                anger++;
+            } else {
+                anger = Math.max(0, anger - 1);
+            }
+
+            if (anger >= ANGER_MAX) {
+                maxHitsLeft = MAX_HITS_BEFORE_VOID;
+            }
+
+            updateAngerVisual();
 
             isCooldown = true;
             cat.classList.add('cooldown');
             cat.classList.add('flip');
 
-            audio.currentTime = 0;
-            audio.play();
+            var sound = (anger >= ANGER_THRESHOLD) ? angryMeow : meow;
+            try {
+                sound.currentTime = 0;
+                sound.play().catch(function(){});
+            } catch (e) {}
 
-            setTimeout(function() {
-                cat.classList.remove('flip');
-            }, 600);
-
+            setTimeout(function() { cat.classList.remove('flip'); }, 600);
             setTimeout(function() {
                 isCooldown = false;
                 cat.classList.remove('cooldown');
             }, 1000);
+
+            startDecayLoop();
         }
 
+        function startDecayLoop() {
+            if (decayHandle) return;
+            decayHandle = setInterval(function() {
+                if (Date.now() - lastClickTime < DECAY_AFTER_MS) return;
+                if (voidEl.classList.contains('active')) return;
+
+                if (anger > 0) {
+                    anger--;
+                    if (anger < ANGER_MAX) maxHitsLeft = 0;
+                    updateAngerVisual();
+                } else {
+                    clearInterval(decayHandle);
+                    decayHandle = null;
+                }
+            }, DECAY_TICK_MS);
+        }
+
+        function updateAngerVisual() {
+            cat.classList.remove('angry-1','angry-2','angry-3','angry-4');
+
+            if (anger >= ANGER_THRESHOLD) {
+                if (cat.getAttribute('src') !== 'catbucket-angry.png') {
+                    cat.setAttribute('src', 'catbucket-angry.png');
+                }
+            } else {
+                if (cat.getAttribute('src') !== 'catbucket.png') {
+                    cat.setAttribute('src', 'catbucket.png');
+                }
+            }
+
+            if (anger >= ANGER_MAX)                cat.classList.add('angry-4');
+            else if (anger >= ANGER_MAX - 2)       cat.classList.add('angry-3');
+            else if (anger >= ANGER_THRESHOLD + 2) cat.classList.add('angry-2');
+            else if (anger >= ANGER_THRESHOLD)     cat.classList.add('angry-1');
+
+            catShake.classList.remove('shake-1','shake-2','shake-3','shake-4');
+
+            if (anger >= ANGER_MAX)                catShake.classList.add('shake-4');
+            else if (anger >= ANGER_MAX - 2)       catShake.classList.add('shake-3');
+            else if (anger >= ANGER_THRESHOLD + 1) catShake.classList.add('shake-2');
+            else if (anger >= ANGER_THRESHOLD)     catShake.classList.add('shake-1');
+
+            pageEl.classList.remove('page-shake-1','page-shake-2','page-shake-3','page-shake-4');
+
+            if (anger >= ANGER_MAX)                pageEl.classList.add('page-shake-4');
+            else if (anger >= ANGER_MAX - 2)       pageEl.classList.add('page-shake-3');
+            else if (anger >= ANGER_THRESHOLD + 1) pageEl.classList.add('page-shake-2');
+            else if (anger >= ANGER_THRESHOLD)     pageEl.classList.add('page-shake-1');
+        }
+
+        function fadeInEerie() {
+            if (eerieFadeHandle) { clearInterval(eerieFadeHandle); eerieFadeHandle = null; }
+
+            eerie.volume = 0;
+            var steps = 40;
+            var stepTime = EERIE_FADE_MS / steps;
+            var stepVol = EERIE_TARGET_VOLUME / steps;
+            var i = 0;
+
+            eerieFadeHandle = setInterval(function() {
+                i++;
+                eerie.volume = Math.min(EERIE_TARGET_VOLUME, stepVol * i);
+                if (i >= steps) {
+                    clearInterval(eerieFadeHandle);
+                    eerieFadeHandle = null;
+                }
+            }, stepTime);
+        }
+
+        function tryPlayEerie() {
+            eerie.volume = 0;
+            eerie.currentTime = 0;
+            var p = eerie.play();
+            if (p && p.then) {
+                p.then(function() {
+                    fadeInEerie();
+                }).catch(function() {
+                    attachEerieUnlock();
+                });
+            } else {
+                fadeInEerie();
+            }
+        }
+
+        function attachEerieUnlock() {
+            if (eerieUnlockAttached) return;
+            eerieUnlockAttached = true;
+
+            function unlock() {
+                document.removeEventListener('click', unlock, true);
+                document.removeEventListener('keydown', unlock, true);
+                document.removeEventListener('touchstart', unlock, true);
+                eerieUnlockAttached = false;
+
+                if (!voidEl.classList.contains('active')) return;
+
+                eerie.volume = 0;
+                eerie.currentTime = 0;
+                var p = eerie.play();
+                if (p && p.then) {
+                    p.then(fadeInEerie).catch(function(){});
+                } else {
+                    fadeInEerie();
+                }
+            }
+
+            document.addEventListener('click', unlock, true);
+            document.addEventListener('keydown', unlock, true);
+            document.addEventListener('touchstart', unlock, true);
+        }
+
+        function enterVoid(startTime) {
+            try { bgmusic.pause(); bgmusic.currentTime = 0; } catch (e) {}
+            try { meow.pause(); meow.currentTime = 0; } catch (e) {}
+            try { angryMeow.pause(); angryMeow.currentTime = 0; } catch (e) {}
+
+            if (decayHandle) { clearInterval(decayHandle); decayHandle = null; }
+
+            pageEl.classList.remove('page-shake-1','page-shake-2','page-shake-3','page-shake-4');
+            catShake.classList.remove('shake-1','shake-2','shake-3','shake-4');
+
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({ start: startTime }));
+
+            voidEl.classList.add('active');
+            voidText.textContent = VOID_TEXT;
+
+            attachBeforeUnload();
+
+            tryPlayEerie();
+
+            if (voidTimerHandle) clearInterval(voidTimerHandle);
+            voidTimerHandle = setInterval(function() {
+                var elapsed = Date.now() - startTime;
+                var left = RELEASE_MS - elapsed;
+                if (left <= 0) { exitVoid(); return; }
+                var m = Math.floor(left / 60000);
+                var s = Math.floor((left % 60000) / 1000);
+                voidTimer.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+            }, 1000);
+
+            var left0 = RELEASE_MS - (Date.now() - startTime);
+            var m0 = Math.floor(left0 / 60000);
+            var s0 = Math.floor((left0 % 60000) / 1000);
+            voidTimer.textContent = m0 + ':' + (s0 < 10 ? '0' : '') + s0;
+        }
+
+        function exitVoid() {
+            if (voidTimerHandle) { clearInterval(voidTimerHandle); voidTimerHandle = null; }
+            if (eerieFadeHandle) { clearInterval(eerieFadeHandle); eerieFadeHandle = null; }
+            try { eerie.pause(); eerie.currentTime = 0; eerie.volume = 0; } catch (e) {}
+            voidEl.classList.remove('active');
+
+            detachBeforeUnload();
+
+            anger = 0;
+            maxHitsLeft = 0;
+            lastClickTime = 0;
+            musicStarted = false;
+            cat.setAttribute('src', 'catbucket.png');
+            updateAngerVisual();
+            localStorage.removeItem(STORAGE_KEY);
+        }
         var contractImg = new Image();
         contractImg.src = 'contract.png';
 
@@ -142,10 +684,8 @@
 
         var IMG_W = 2686;
         var IMG_H = 1334;
-
         var SIGN_X = 2000;
         var SIGN_Y = 1000;
-
         var MAX_CHARS = 20;
 
         contractImg.onload = function() {
@@ -156,7 +696,7 @@
 
         function drawRainbowText(text, x, y, fontSize) {
             var colors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#9400D3'];
-            ctx.font = fontSize + 'px "Comic Sans MS", cursive';
+            ctx.font = fontSize + 'px "Comic Sans MS Local", "Comic Sans MS", cursive';
             ctx.textBaseline = 'alphabetic';
 
             var currentX = x;
@@ -169,15 +709,8 @@
 
         function signContract() {
             var name = document.getElementById('nameInput').value;
-
-            if (name.length > MAX_CHARS) {
-                name = name.substring(0, MAX_CHARS);
-            }
-
-            if (name.trim() === '') {
-                alert('Введи имя, кот ждёт!');
-                return;
-            }
+            if (name.length > MAX_CHARS) name = name.substring(0, MAX_CHARS);
+            if (name.trim() === '') { alert('Ты не ввел имя!'); return; }
 
             ctx.drawImage(contractImg, 0, 0);
 
